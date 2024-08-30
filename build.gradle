@@ -39,3 +39,15 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+tasks.withType(JavaCompile) {
+	options.compilerArgs << "-parameters"
+}
+
+jar{
+	manifest {
+		attributes(
+				'Main-class': 'com.study.travel.TravelApplication'
+		)
+	}
+}

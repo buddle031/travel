@@ -14,17 +14,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 public class Travel {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String destination;
     private String duration;
-    private String travelType;
-    private LocalDateTime dateTime;
-    private LocalDateTime startDate;  // 여행 시작일 (사용자가 날짜를 선택할 경우)
-    private LocalDateTime endDate;    // 여행 종료일 (사용자가 날짜를 선택할 경우)
+    private String travelType;  // 여행 스타일 (예: "Leisure", "Adventure")
+    private String transportation;  // 추가 가능: 교통수단 (예: "Bus", "Car", "Train")
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
+    private Member member;  // 연관된 사용자 정보
 
-    //@ManyToOne
-    private Member member;       // 여행자 (외래 키)
+    // 추가 가능한 필드 예시
+    private String additionalNotes;  // 추가적인 설명 또는 메모answ
 }

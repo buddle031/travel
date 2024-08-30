@@ -15,15 +15,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class Member {
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String name;
     private Integer age;
-    private String bodyCondition;
-    private String healthStatus;    // 건강 상태 (자유 입력)
-    private String emergencyContact;  // 비상 연락망
+    private String bodyCondition;  // 걷기 능력
+    private String healthStatus;
+    private String emergencyContact;
+    private String additionalNotes;
+
+    // 추가 가능한 필드 예시
+    private String preferredTravelStyle;
 
     public String getName() {
         return name;

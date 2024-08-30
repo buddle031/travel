@@ -10,30 +10,34 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public class MemoryStorage {
 
-    private static final Logger logger = LoggerFactory.getLogger(MemoryStorage.class);
-
-    private static final Map<Long, Member> users = new HashMap<>();
-    private static final Map<Long, Travel> travels = new HashMap<>();
-    private static final AtomicLong userIdCounter = new AtomicLong(1);
+    private static Member savedMember;  // 단일 사용자 관리
+    private static final Map<Long, Travel> travels = new HashMap<>();  // 여행 정보 저장소
     private static final AtomicLong travelIdCounter = new AtomicLong(1);
 
+    // 사용자 저장 메서드 (단일 사용자만 저장)
     public static Member saveMember(Member member) {
-        Long id = userIdCounter.getAndIncrement();
-        member.setId(id);
-        users.put(id, member);
-        logger.info("Saved id: {}", id);
-        logger.info("Saved member: {}", member);  // 저장된 사용자 로그 출력
-        return member;
+        member.setId(1L);  // 항상 ID를 1로 설정하여 단일 사용자만 관리
+        savedMember = member;  // 저장된 사용자 객체를 기억
+        System.out.println("Saved member: " + member);  // 저장된 사용자 로그 출력
+        return savedMember;
     }
 
+    // 저장된 단일 사용자 가져오기
+    public static Optional<Member> getSavedMember() {
+        System.out.println("Fetching saved member: " + savedMember);  // 저장된 사용자 로그 출력
+        return Optional.ofNullable(savedMember);
+    }
+
+    // 여행 정보 저장 메서드
     public static Travel saveTravel(Travel travel) {
         Long id = travelIdCounter.getAndIncrement();
         travel.setId(id);
         travels.put(id, travel);
-        logger.info("Saved travel: {}", travel);  // 저장된 여행 로그 출력
+        System.out.println("Saved travel: " + travel);  // 저장된 여행 로그 출력
         return travel;
     }
 
+    // 사용자 ID로 여행 정보를 찾는 메서드
     public static List<Travel> findTravelsByUserId(Long userId) {
         List<Travel> result = new ArrayList<>();
         for (Travel travel : travels.values()) {
@@ -41,13 +45,7 @@ public class MemoryStorage {
                 result.add(travel);
             }
         }
-        logger.info("Travels found for userId {}: {}", userId, result);  // 조회된 여행 로그 출력
+        System.out.println("Travels found for userId " + userId + ": " + result);  // 조회된 여행 로그 출력
         return result;
-    }
-
-    public static Optional<Member> findUserById(Long userId) {
-        Member member = users.get(userId);
-        logger.info("User found for userId {}: {}", userId, member);  // 조회된 사용자 로그 출력
-        return Optional.ofNullable(member);
     }
 }
